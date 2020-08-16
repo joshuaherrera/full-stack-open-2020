@@ -35,7 +35,7 @@ const App = () => {
         <div>Too many matches, specify another filter</div>
       ) : filteredCountries.length === 1 ? (
         <div>
-          <Country country={filteredCountries[0]} showInfo={true} />
+          <Country country={filteredCountries[0]} />
         </div>
       ) : (
         <Countries filteredCountries={filteredCountries} />
