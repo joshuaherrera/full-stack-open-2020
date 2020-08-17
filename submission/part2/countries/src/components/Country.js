@@ -12,7 +12,7 @@ const Country = ({ country }) => {
           <li key={language.iso639_1}>{language.name}</li>
         ))}
       </ul>
-      <img src={country.flag} alt="Flag" width="250" height="200" />
+      <img src={country.flag} alt="Flag" width="275" height="200" />
     </>
   );
 };
