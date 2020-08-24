@@ -1,5 +1,5 @@
 import React from "react";
-
+import Person from "./Person";
 const Persons = ({ persons, newSearchParam }) => {
   return (
     <ul>
@@ -8,9 +8,7 @@ const Persons = ({ persons, newSearchParam }) => {
           person.name.toLowerCase().includes(newSearchParam.toLowerCase())
         )
         .map((person) => (
-          <li key={person.name}>
-            {person.name} {person.number}
-          </li>
+          <Person person={person} key={person.name} />
         ))}
     </ul>
   );
