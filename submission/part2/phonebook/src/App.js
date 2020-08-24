@@ -44,7 +44,9 @@ const App = () => {
         name: newName,
         number: newNumber !== "Add a number..." ? newNumber : "",
       };
-      setPersons(persons.concat(personObj));
+      axios.post("http://localhost:3001/persons", personObj).then((res) => {
+        setPersons(persons.concat(res.data));
+      });
     }
     setNewName("");
     setNewNumber("");
