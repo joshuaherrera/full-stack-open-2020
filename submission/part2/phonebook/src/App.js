@@ -10,13 +10,13 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("Add a number...");
   const [newSearchParam, setNewSearchParam] = useState("");
 
-  const hook = () => {
+  const refreshAllPersons = () => {
     phonebookService.getAll().then((people) => {
       setPersons(people);
     });
   };
 
-  useEffect(hook, []);
+  useEffect(refreshAllPersons, []);
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -32,17 +32,26 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault();
+    const personObj = {
+      name: newName,
+      number: newNumber !== "Add a number..." ? newNumber : "",
+    };
 
-    const nameExists = persons.find(
+    const existingPerson = persons.find(
       (person) => person.name.toLowerCase() === newName.toLowerCase()
     );
-    if (nameExists !== undefined) {
-      alert(`${newName} is already added to the phonebook.`);
+
+    if (existingPerson !== undefined) {
+      const msg = `${existingPerson.name} is already added to the phonebook, replace the old number with a new one?`;
+      if (window.confirm(msg)) {
+        // overwrite the old number
+        phonebookService
+          .update(existingPerson.id, personObj)
+          .then((updatedPerson) => {
+            refreshAllPersons();
+          });
+      }
     } else {
-      const personObj = {
-        name: newName,
-        number: newNumber !== "Add a number..." ? newNumber : "",
-      };
       phonebookService.create(personObj).then((addedPerson) => {
         setPersons(persons.concat(addedPerson));
       });
@@ -67,7 +76,7 @@ const App = () => {
       <Persons
         persons={persons}
         newSearchParam={newSearchParam}
-        setPersonsHandler={hook}
+        setPersonsHandler={refreshAllPersons}
       />
     </div>
   );
