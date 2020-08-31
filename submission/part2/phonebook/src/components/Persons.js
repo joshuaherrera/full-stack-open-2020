@@ -1,6 +1,7 @@
 import React from "react";
 import Person from "./Person";
-const Persons = ({ persons, newSearchParam }) => {
+
+const Persons = ({ persons, newSearchParam, setPersonsHandler }) => {
   return (
     <ul>
       {persons
@@ -8,7 +9,11 @@ const Persons = ({ persons, newSearchParam }) => {
           person.name.toLowerCase().includes(newSearchParam.toLowerCase())
         )
         .map((person) => (
-          <Person person={person} key={person.name} />
+          <Person
+            person={person}
+            key={person.name}
+            setPersonsHandler={setPersonsHandler}
+          />
         ))}
     </ul>
   );

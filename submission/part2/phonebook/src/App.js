@@ -6,7 +6,6 @@ import phonebookService from "./services/phonebook";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
-
   const [newName, setNewName] = useState("Add a name...");
   const [newNumber, setNewNumber] = useState("Add a number...");
   const [newSearchParam, setNewSearchParam] = useState("");
@@ -65,7 +64,11 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons persons={persons} newSearchParam={newSearchParam} />
+      <Persons
+        persons={persons}
+        newSearchParam={newSearchParam}
+        setPersonsHandler={hook}
+      />
     </div>
   );
 };
