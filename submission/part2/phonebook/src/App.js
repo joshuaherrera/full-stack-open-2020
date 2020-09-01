@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 import phonebookService from "./services/phonebook";
 
 const App = () => {
@@ -9,6 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState("Add a name...");
   const [newNumber, setNewNumber] = useState("Add a number...");
   const [newSearchParam, setNewSearchParam] = useState("");
+  const [message, setMsg] = useState(null);
+  const [msgType, setMsgType] = useState("success");
 
   const refreshAllPersons = () => {
     phonebookService.getAll().then((people) => {
@@ -49,12 +52,32 @@ const App = () => {
           .update(existingPerson.id, personObj)
           .then((updatedPerson) => {
             refreshAllPersons();
+          })
+          .catch((err) => {
+            setMsgType("error");
+            setTimeout(() => {
+              setMsg(null);
+            }, 5000);
+            setMsg(
+              `${existingPerson.name} has already been removed from the server`
+            );
+            setPersons(persons.filter((p) => p.id !== existingPerson.id));
           });
+        setTimeout(() => {
+          setMsg(null);
+        }, 5000);
+        setMsgType("success");
+        setMsg(`Updated ${existingPerson.name}`);
       }
     } else {
       phonebookService.create(personObj).then((addedPerson) => {
         setPersons(persons.concat(addedPerson));
       });
+      setTimeout(() => {
+        setMsg(null);
+      }, 5000);
+      setMsgType("success");
+      setMsg(`Added ${personObj.name}`);
     }
     setNewName("");
     setNewNumber("");
@@ -63,6 +86,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} msgType={msgType} />
       <Filter handleParamChange={handleParamChange} />
       <h3>Add a new</h3>
       <PersonForm

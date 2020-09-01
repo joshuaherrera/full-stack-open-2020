@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "562-906-5348",
-      "id": 1
-    },
-    {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
       "id": 2
@@ -29,6 +24,16 @@
       "name": "Lucy Garcia",
       "number": "323-458-3073",
       "id": 6
+    },
+    {
+      "name": "Test Number",
+      "number": "123-45-7890",
+      "id": 7
+    },
+    {
+      "name": "Arto Hellas",
+      "number": "562-906-5348",
+      "id": 8
     }
   ]
 }
