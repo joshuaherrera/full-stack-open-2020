@@ -53,6 +53,7 @@ const App = () => {
           .then((updatedPerson) => {
             refreshAllPersons();
           })
+          // person removed from server
           .catch((err) => {
             setMsgType("error");
             setTimeout(() => {
@@ -61,6 +62,7 @@ const App = () => {
             setMsg(
               `${existingPerson.name} has already been removed from the server`
             );
+            // rm from state
             setPersons(persons.filter((p) => p.id !== existingPerson.id));
           });
         setTimeout(() => {
