@@ -1,9 +1,23 @@
 const express = require("express");
 const app = express();
 
-// this middleware parses json to a jsobject, then
-// attaches to body property of request
+// this middleware parses json to a JS-Object, then
+// attaches to body property of request object
 app.use(express.json());
+
+const reqLogger = (req, res, next) => {
+  console.log("Method:", req.method);
+  console.log("Path:", req.path);
+  console.log("Body:", req.body);
+  console.log("---");
+  next();
+};
+
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: "unknown endpoint" });
+};
+
+app.use(reqLogger);
 
 let notes = [
   {
@@ -78,6 +92,8 @@ app.delete("/api/notes/:id", (req, res) => {
 
   res.status(204).end();
 });
+
+app.use(unknownEndpoint);
 
 const PORT = 3001;
 // binds server to listen to port 3001 for requests
