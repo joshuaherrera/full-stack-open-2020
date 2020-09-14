@@ -73,6 +73,7 @@ const App = () => {
       }
     } else {
       phonebookService.create(personObj).then((addedPerson) => {
+        // console.log(addedPerson.id);
         setPersons(persons.concat(addedPerson));
       });
       setTimeout(() => {
