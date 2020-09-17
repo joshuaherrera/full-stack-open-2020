@@ -58,12 +58,8 @@ const App = () => {
             setMsgType("error");
             setTimeout(() => {
               setMsg(null);
-            }, 5000);
-            setMsg(
-              `${existingPerson.name} has already been removed from the server`
-            );
-            // rm from state
-            setPersons(persons.filter((p) => p.id !== existingPerson.id));
+            }, 10000);
+            setMsg(err.response.data.error);
           });
         setTimeout(() => {
           setMsg(null);
@@ -72,15 +68,25 @@ const App = () => {
         setMsg(`Updated ${existingPerson.name}`);
       }
     } else {
-      phonebookService.create(personObj).then((addedPerson) => {
-        // console.log(addedPerson.id);
-        setPersons(persons.concat(addedPerson));
-      });
-      setTimeout(() => {
-        setMsg(null);
-      }, 5000);
-      setMsgType("success");
-      setMsg(`Added ${personObj.name}`);
+      phonebookService
+        .create(personObj)
+        .then((addedPerson) => {
+          // console.log(addedPerson.id);
+          setPersons(persons.concat(addedPerson));
+          setTimeout(() => {
+            setMsg(null);
+          }, 5000);
+          setMsgType("success");
+          setMsg(`Added ${personObj.name}`);
+        })
+        .catch((err) => {
+          console.log(err.response.data.error);
+          setTimeout(() => {
+            setMsg(null);
+          }, 10000);
+          setMsgType("error");
+          setMsg(err.response.data.error);
+        });
     }
     setNewName("");
     setNewNumber("");
