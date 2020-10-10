@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Note from "./components/Note";
 import noteService from "./services/notes";
 import loginService from "./services/login";
@@ -50,14 +50,17 @@ const App = () => {
     }
   }, []);
 
+  const noteFormRef = useRef();
+
   const addNote = (noteObject) => {
+    noteFormRef.current.toggleVisibility();
     noteService.create(noteObject).then((newNote) => {
       setNotes(notes.concat(newNote));
     });
   };
 
   const noteForm = () => (
-    <Togglable buttonLabel="new note">
+    <Togglable buttonLabel="new note" ref={noteFormRef}>
       <NoteForm createNote={addNote} />
     </Togglable>
   );
@@ -91,7 +94,7 @@ const App = () => {
         username,
         password,
       });
-      window.localStorage.setItem("loggeNoteappUser", JSON.stringify(user));
+      window.localStorage.setItem("loggedNoteappUser", JSON.stringify(user));
       noteService.setToken(user.token);
       setUser(user);
       setUsername("");
